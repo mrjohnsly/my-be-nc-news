@@ -95,7 +95,6 @@ describe("/api/articles/:article_id", () => {
 				.get("/api/articles/one")
 				.expect(400)
 				.then(({ body }) => {
-					console.log(body);
 					expect(body).toEqual({ error: { code: 400, message: 'Invalid ID' } });
 				});
 		});
@@ -105,7 +104,6 @@ describe("/api/articles/:article_id", () => {
 				.get("/api/articles/9999")
 				.expect(404)
 				.then(({ body }) => {
-					console.log(body);
 					expect(body).toEqual({ error: { code: 404, message: 'No article found' } });
 				});
 		});
