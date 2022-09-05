@@ -35,5 +35,18 @@ describe("/api/topics", () => {
 					expect(Array.isArray(body.topics)).toBe(true);
 				});
 		});
+
+		test("200: Responds with an array of topics with the properties 'slug' and 'description'", () => {
+			return supertest(app)
+				.get("/api/topics")
+				.expect(200)
+				.then(({ body }) => {
+					expect(body.topics.length).toBeGreaterThan(0);
+					body.topics.forEach((topic) => {
+						expect(topic).toHaveProperty("slug");
+						expect(topic).toHaveProperty("description");
+					});
+				});
+		});
 	});
 });
