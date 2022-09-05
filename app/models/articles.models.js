@@ -6,7 +6,11 @@ exports.selectArticleById = (article_id) => {
 		WHERE article_id = $1
 	`, [article_id])
 		.then((dbResult) => {
-			return dbResult.rows[0];
+			if (dbResult.rowCount === 0) {
+				return Promise.reject({ code: 404, message: "No article found" });
+			} else {
+				return dbResult.rows[0];
+			}
 		})
 		.catch((error) => {
 			throw error;
