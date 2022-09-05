@@ -74,5 +74,20 @@ describe("/api/articles/:article_id", () => {
 					expect(body).toHaveProperty("article");
 				});
 		});
+
+		test("200: Responds with an article object with the properties 'author', 'title', 'article_id', 'body', 'topic', 'created_at', 'votes'", () => {
+			return supertest(app)
+				.get("/api/articles/1")
+				.expect(200)
+				.then(({ body }) => {
+					expect(body.article).toHaveProperty("author");
+					expect(body.article).toHaveProperty("title");
+					expect(body.article).toHaveProperty("article_id");
+					expect(body.article).toHaveProperty("body");
+					expect(body.article).toHaveProperty("topic");
+					expect(body.article).toHaveProperty("created_at");
+					expect(body.article).toHaveProperty("votes");
+				});
+		});
 	});
 });
