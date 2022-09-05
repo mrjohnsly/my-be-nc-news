@@ -9,6 +9,6 @@ exports.selectArticleById = (article_id) => {
 			return dbResult.rows[0];
 		})
 		.catch((error) => {
-			return error;
+			throw error;
 		});
 };
