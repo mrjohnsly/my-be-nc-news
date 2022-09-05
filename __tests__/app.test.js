@@ -24,3 +24,16 @@ describe("/api", () => {
 		});
 	});
 });
+
+describe("/api/topics", () => {
+	describe("GET", () => {
+		test("200: Responds with an array of topics", () => {
+			return supertest(app)
+				.get("/api/topics")
+				.expect(200)
+				.then(({ body }) => {
+					expect(Array.isArray(body.topics)).toBe(true);
+				});
+		});
+	});
+});
