@@ -6,3 +6,7 @@ exports.getTopics = (request, response) => {
 			response.status(200).send({ topics });
 		});
 };
+
+exports.postTopics = (request, response, next) => {
+	next({ status: 501, message: "Not Implemented" });
+};
