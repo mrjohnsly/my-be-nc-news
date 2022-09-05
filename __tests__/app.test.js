@@ -89,5 +89,15 @@ describe("/api/articles/:article_id", () => {
 					expect(body.article).toHaveProperty("votes");
 				});
 		});
+
+		test.only("400: Responds with 'Invalid ID' when the request ID is not a number", () => {
+			return supertest(app)
+				.get("/api/articles/one")
+				.expect(400)
+				.then(({ body }) => {
+					console.log(body);
+					expect(body).toEqual({ error: { code: 400, message: 'Invalid ID' } });
+				});
+		});
 	});
 });
