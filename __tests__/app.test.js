@@ -8,6 +8,10 @@ beforeAll(() => {
 	return seed(testData);
 });
 
+afterAll(() => {
+	return db.end();
+});
+
 describe("/api", () => {
 	describe("GET", () => {
 		test("200: Responds with a message 'Server is up'", () => {
