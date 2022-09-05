@@ -1,10 +1,11 @@
 const app = require("../app/app.js");
 const supertest = require("supertest");
-const seed = require("../db/seeds/run-seed.js");
+const seed = require("../db/seeds/seed.js");
+const testData = require("../db/data/test-data/index.js");
 const db = require("../db/connection.js");
 
 beforeAll(() => {
-	return seed();
+	return seed(testData);
 });
 
 describe("/api", () => {
