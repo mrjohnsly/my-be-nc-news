@@ -14,8 +14,8 @@ describe("/api", () => {
 			return supertest(app)
 				.get("/api")
 				.expect(200)
-				.then((response) => {
-					expect(response).toBe({ message: "Server is up" });
+				.then(({ body }) => {
+					expect(body).toEqual({ message: "Server is up" });
 				});
 		});
 	});
