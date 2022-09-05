@@ -51,7 +51,7 @@ describe("/api/topics", () => {
 	});
 
 	describe("POST", () => {
-		test.only("501: Responds with an error object with a message 501 Not Implemented", () => {
+		test("501: Responds with an error object with a message 501 Not Implemented", () => {
 			return supertest(app)
 				.post("/api/topics")
 				.expect(501)
@@ -59,6 +59,19 @@ describe("/api/topics", () => {
 					expect(body).toHaveProperty("error");
 					expect(body.error).toHaveProperty("message");
 					expect(body.error.message).toEqual("501 Not Implemented");
+				});
+		});
+	});
+});
+
+describe("/api/articles/:article_id", () => {
+	describe("GET", () => {
+		test("200: Responds with an article object", () => {
+			return supertest(app)
+				.get("/api/articles/1")
+				.expect(200)
+				.then(({ body }) => {
+					expect(body).toHaveProperty("article");
 				});
 		});
 	});
