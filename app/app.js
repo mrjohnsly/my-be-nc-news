@@ -1,11 +1,10 @@
 const express = require("express");
+const { healthCheck } = require("./controllers/api.controllers");
 const { getTopics } = require("./controllers/topics.controllers");
 
 const app = express();
 
-app.get("/api", (request, response) => {
-	response.status(200).send({ message: "Server is up" });
-});
+app.get("/api", healthCheck);
 
 app.get("/api/topics", getTopics);
 
