@@ -1,3 +1,8 @@
+const { selectTopics } = require("../models/topics.models");
+
 exports.getTopics = (request, response) => {
-	response.status(200).send({ topics: [] });
+	selectTopics()
+		.then((topics) => {
+			response.status(200).send({ topics });
+		});
 };
