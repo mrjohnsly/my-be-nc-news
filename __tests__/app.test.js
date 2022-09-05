@@ -27,7 +27,7 @@ describe("/api", () => {
 
 describe("/api/topics", () => {
 	describe("GET", () => {
-		test("200: Responds with an array of topics", () => {
+		test("200: Responds with an array on the topics key", () => {
 			return supertest(app)
 				.get("/api/topics")
 				.expect(200)
