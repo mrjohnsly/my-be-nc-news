@@ -99,5 +99,15 @@ describe("/api/articles/:article_id", () => {
 					expect(body).toEqual({ error: { code: 400, message: 'Invalid ID' } });
 				});
 		});
+
+		test("404: Responds with 404 when the ID is valid but no article is found", () => {
+			return supertest(app)
+				.get("/api/articles/9999")
+				.expect(404)
+				.then(({ body }) => {
+					console.log(body);
+					expect(body).toEqual({ error: { code: 404, message: 'No article found' } });
+				});
+		});
 	});
 });
