@@ -12,7 +12,9 @@ app.post("/api/topics", postTopics);
 app.get("/api/articles/:article_id", getArticleById);
 
 app.use((error, request, response, next) => {
-	if (error.status === 501) {
+	if (error.code === 404) {
+		response.status(404).send({ error: error });
+	} else if (error.status === 501) {
 		response.status(501).send({ error: { message: "501 Not Implemented" } });
 	} else {
 		next(error);
