@@ -121,12 +121,23 @@ describe("/api/articles/:article_id", () => {
 	});
 
 	describe("PATCH", () => {
-		test("405: Responds with a message 'Method not allowed' for PATCH requests", () => {
+		test.only("200: Responds with the updated article with the vote_count increased by 1", () => {
 			return supertest(app)
 				.patch("/api/articles/1")
-				.expect(405)
+				.expect(200)
+				.send({ inc_votes: 1 })
 				.then(({ body }) => {
-					expect(body).toEqual({ error: { code: 405, message: "Method not allowed" } });
+					expect(body).toEqual({
+						article: {
+							article_id: 1,
+							title: "Living in the shadow of a great man",
+							topic: "mitch",
+							author: "butter_bridge",
+							body: "I find this existence challenging",
+							created_at: "2020-07-09T20:11:00.000Z",
+							votes: 101
+						}
+					});
 				});
 		});
 	});
