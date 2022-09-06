@@ -116,5 +116,23 @@ describe("/api/articles/:article_id", () => {
 					expect(body).toEqual({ error: { code: 405, message: "Method not allowed" } });
 				});
 		});
+
+		test("405: Responds with a message 'Method not allowed' for PATCH requests", () => {
+			return supertest(app)
+				.patch("/api/articles/1")
+				.expect(405)
+				.then(({ body }) => {
+					expect(body).toEqual({ error: { code: 405, message: "Method not allowed" } });
+				});
+		});
+
+		test("405: Responds with a message 'Method not allowed' for DELETE requests", () => {
+			return supertest(app)
+				.delete("/api/articles/1")
+				.expect(405)
+				.then(({ body }) => {
+					expect(body).toEqual({ error: { code: 405, message: "Method not allowed" } });
+				});
+		});
 	});
 });
