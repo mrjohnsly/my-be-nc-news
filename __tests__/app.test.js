@@ -180,6 +180,21 @@ describe("/api/articles/:article_id", () => {
 					});
 				});
 		});
+
+		test("400: Responds with a message 'Invalid ID' when article_id is a String", () => {
+			return supertest(app)
+				.patch("/api/articles/one")
+				.expect(400)
+				.send({ inc_votes: 1 })
+				.then(({ body }) => {
+					expect(body).toEqual({
+						error: {
+							code: 400,
+							message: "Invalid ID"
+						}
+					});
+				});
+		});
 	});
 
 	describe("DELETE", () => {
