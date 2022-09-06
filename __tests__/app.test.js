@@ -142,3 +142,16 @@ describe("/api/articles/:article_id", () => {
 		});
 	});
 });
+
+describe("/api/users", () => {
+	describe("GET", () => {
+		test("200: Responds with an array on the users property", () => {
+			return supertest(app)
+				.get("/api/users")
+				.expect(200)
+				.then(({ body }) => {
+					expect(Array.isArray(body.users)).toBe(true);
+				});
+		});
+	});
+});
