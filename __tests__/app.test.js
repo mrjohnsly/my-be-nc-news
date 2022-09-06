@@ -153,5 +153,18 @@ describe("/api/users", () => {
 					expect(Array.isArray(body.users)).toBe(true);
 				});
 		});
+
+		test("200: Check users have the correct properties 'username', 'name' and 'avatar_url'", () => {
+			return supertest(app)
+				.get("/api/users")
+				.expect(200)
+				.then(({ body }) => {
+					body.users.forEach((user) => {
+						expect(user).toHaveProperty("username");
+						expect(user).toHaveProperty("name");
+						expect(user).toHaveProperty("avatar_url");
+					});
+				});
+		});
 	});
 });
