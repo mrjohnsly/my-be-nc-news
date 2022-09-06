@@ -107,7 +107,9 @@ describe("/api/articles/:article_id", () => {
 					expect(body).toEqual({ error: { code: 404, message: 'No article found' } });
 				});
 		});
+	});
 
+	describe("POST", () => {
 		test("405: Responds with a message 'Method not allowed' for POST requests", () => {
 			return supertest(app)
 				.post("/api/articles/1")
@@ -116,7 +118,9 @@ describe("/api/articles/:article_id", () => {
 					expect(body).toEqual({ error: { code: 405, message: "Method not allowed" } });
 				});
 		});
+	});
 
+	describe("PATCH", () => {
 		test("405: Responds with a message 'Method not allowed' for PATCH requests", () => {
 			return supertest(app)
 				.patch("/api/articles/1")
@@ -125,13 +129,42 @@ describe("/api/articles/:article_id", () => {
 					expect(body).toEqual({ error: { code: 405, message: "Method not allowed" } });
 				});
 		});
+	});
 
+	describe("DELETE", () => {
 		test("405: Responds with a message 'Method not allowed' for DELETE requests", () => {
 			return supertest(app)
 				.delete("/api/articles/1")
 				.expect(405)
 				.then(({ body }) => {
 					expect(body).toEqual({ error: { code: 405, message: "Method not allowed" } });
+				});
+		});
+	});
+});
+
+describe("/api/users", () => {
+	describe("GET", () => {
+		test("200: Responds with an array on the users property", () => {
+			return supertest(app)
+				.get("/api/users")
+				.expect(200)
+				.then(({ body }) => {
+					expect(Array.isArray(body.users)).toBe(true);
+				});
+		});
+
+		test("200: Check users have the correct properties 'username', 'name' and 'avatar_url'", () => {
+			return supertest(app)
+				.get("/api/users")
+				.expect(200)
+				.then(({ body }) => {
+					expect(body.users.length).toBeGreaterThan(0);
+					body.users.forEach((user) => {
+						expect(user).toHaveProperty("username");
+						expect(user).toHaveProperty("name");
+						expect(user).toHaveProperty("avatar_url");
+					});
 				});
 		});
 	});
