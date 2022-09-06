@@ -11,8 +11,5 @@ exports.selectArticleById = (article_id) => {
 			} else {
 				return dbResult.rows[0];
 			}
-		})
-		.catch((error) => {
-			throw error;
 		});
 };
