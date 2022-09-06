@@ -7,8 +7,9 @@
     "dev": "nodemon ./app/listen.js",
     "setup-dbs": "psql -f ./db/setup.sql",
     "seed": "node ./db/seeds/run-seed.js",
-    "test": "jest --watch",
-    "prepare": "husky install"
+    "test": "jest",
+    "prepare": "husky install",
+    "query-test-db": "psql -f ./db/query-test-db.sql > ./db/db.txt"
   },
   "repository": {
     "type": "git",
