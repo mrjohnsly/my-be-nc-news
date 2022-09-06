@@ -10,6 +10,7 @@ app.get("/api", healthCheck);
 app.get("/api/topics", getTopics);
 app.post("/api/topics", postTopics);
 app.get("/api/articles/:article_id", getArticleById);
+app.post("/api/articles/:article_id", getArticleById);
 
 app.use((error, request, response, next) => {
 	if (error.code === 404) {
