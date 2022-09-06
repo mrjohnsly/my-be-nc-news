@@ -18,7 +18,9 @@ app.delete("/api/articles/:article_id", getArticleById);
 app.get("/api/users", getUsers);
 
 app.use((error, request, response, next) => {
-	if (error.code === 404) {
+	if (error.code === 400) {
+		response.status(400).send({ error: error });
+	} else if (error.code === 404) {
 		response.status(404).send({ error: error });
 	} else if (error.code === 501) {
 		response.status(501).send({ error: { message: "501 Not Implemented" } });
