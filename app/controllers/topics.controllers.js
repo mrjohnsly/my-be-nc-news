@@ -8,5 +8,5 @@ exports.getTopics = (request, response) => {
 };
 
 exports.postTopics = (request, response, next) => {
-	next({ status: 501, message: "Not Implemented" });
+	next({ code: 501, message: "Not Implemented" });
 };
