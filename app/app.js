@@ -31,7 +31,7 @@ app.use((error, request, response, next) => {
 
 app.use((error, request, response, next) => {
 	if (error.code === "22P02") {
-		response.status(400).send({ error: { code: 400, message: "Invalid ID" } });
+		response.status(400).send({ error: { code: 400, message: "Bad Request" } });
 	}
 });
 
