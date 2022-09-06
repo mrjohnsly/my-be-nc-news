@@ -107,5 +107,14 @@ describe("/api/articles/:article_id", () => {
 					expect(body).toEqual({ error: { code: 404, message: 'No article found' } });
 				});
 		});
+
+		test("405: Responds with a message 'Method not allowed' for POST requests", () => {
+			return supertest(app)
+				.post("/api/articles/1")
+				.expect(405)
+				.then(({ body }) => {
+					expect(body).toEqual({ error: { code: 405, message: "Method not allowed" } });
+				});
+		});
 	});
 });
