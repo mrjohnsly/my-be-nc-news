@@ -13,3 +13,15 @@ exports.selectArticleById = (article_id) => {
 			}
 		});
 };
+
+exports.updateArticleById = (article_id, numberOfVotes) => {
+	return db.query(`
+		UPDATE articles
+		SET votes = votes + $1
+		WHERE article_id = $2
+		RETURNING *;
+	`, [numberOfVotes, article_id])
+		.then((dbResult) => {
+			return dbResult.rows[0];
+		});
+};
