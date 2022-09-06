@@ -80,13 +80,13 @@ describe("/api/articles/:article_id", () => {
 				.get("/api/articles/1")
 				.expect(200)
 				.then(({ body }) => {
-					expect(body.article).toHaveProperty("author");
-					expect(body.article).toHaveProperty("title");
-					expect(body.article).toHaveProperty("article_id");
-					expect(body.article).toHaveProperty("body");
-					expect(body.article).toHaveProperty("topic");
-					expect(body.article).toHaveProperty("created_at");
-					expect(body.article).toHaveProperty("votes");
+					expect(body.article.author).toBe("butter_bridge");
+					expect(body.article.title).toBe("Living in the shadow of a great man");
+					expect(body.article.article_id).toBe(1);
+					expect(body.article.body).toBe("I find this existence challenging");
+					expect(body.article.topic).toBe("mitch");
+					expect(body.article.created_at).toBe("2020-07-09T20:11:00.000Z");
+					expect(body.article.votes).toBe(100);
 				});
 		});
 
