@@ -107,7 +107,9 @@ describe("/api/articles/:article_id", () => {
 					expect(body).toEqual({ error: { code: 404, message: 'No article found' } });
 				});
 		});
+	});
 
+	describe("POST", () => {
 		test("405: Responds with a message 'Method not allowed' for POST requests", () => {
 			return supertest(app)
 				.post("/api/articles/1")
@@ -116,7 +118,9 @@ describe("/api/articles/:article_id", () => {
 					expect(body).toEqual({ error: { code: 405, message: "Method not allowed" } });
 				});
 		});
+	});
 
+	describe("PATCH", () => {
 		test("405: Responds with a message 'Method not allowed' for PATCH requests", () => {
 			return supertest(app)
 				.patch("/api/articles/1")
@@ -125,7 +129,9 @@ describe("/api/articles/:article_id", () => {
 					expect(body).toEqual({ error: { code: 405, message: "Method not allowed" } });
 				});
 		});
+	});
 
+	describe("DELETE", () => {
 		test("405: Responds with a message 'Method not allowed' for DELETE requests", () => {
 			return supertest(app)
 				.delete("/api/articles/1")
