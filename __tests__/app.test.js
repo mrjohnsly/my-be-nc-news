@@ -4,7 +4,7 @@ const seed = require("../db/seeds/seed.js");
 const testData = require("../db/data/test-data/index.js");
 const db = require("../db/connection.js");
 
-beforeAll(() => {
+beforeEach(() => {
 	return seed(testData);
 });
 
@@ -141,7 +141,7 @@ describe("/api/articles/:article_id", () => {
 				});
 		});
 
-		test.only("200: Responds with the updated article with the vote_count increased by 99", () => {
+		test("200: Responds with the updated article with the vote_count increased by 99", () => {
 			return supertest(app)
 				.patch("/api/articles/1")
 				.expect(200)
