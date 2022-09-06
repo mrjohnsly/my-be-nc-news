@@ -95,7 +95,7 @@ describe("/api/articles/:article_id", () => {
 				.get("/api/articles/one")
 				.expect(400)
 				.then(({ body }) => {
-					expect(body).toEqual({ error: { code: 400, message: 'Invalid ID' } });
+					expect(body).toEqual({ error: { code: 400, message: 'Bad Request' } });
 				});
 		});
 
@@ -181,6 +181,21 @@ describe("/api/articles/:article_id", () => {
 				});
 		});
 
+		test("400: Responds with a message 'Bad Request' when inc_votes is a String", () => {
+			return supertest(app)
+				.patch("/api/articles/1")
+				.expect(400)
+				.send({ inc_votes: "one" })
+				.then(({ body }) => {
+					expect(body).toEqual({
+						error: {
+							code: 400,
+							message: "Bad Request"
+						}
+					});
+				});
+		});
+
 		test("400: Responds with a message 'Invalid ID' when article_id is a String", () => {
 			return supertest(app)
 				.patch("/api/articles/one")
@@ -190,7 +205,7 @@ describe("/api/articles/:article_id", () => {
 					expect(body).toEqual({
 						error: {
 							code: 400,
-							message: "Invalid ID"
+							message: "Bad Request"
 						}
 					});
 				});
