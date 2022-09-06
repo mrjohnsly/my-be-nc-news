@@ -195,6 +195,21 @@ describe("/api/articles/:article_id", () => {
 					});
 				});
 		});
+
+		test("400: Responds with a message 'Bad Request' when inc_votes is not in the body", () => {
+			return supertest(app)
+				.patch("/api/articles/1")
+				.expect(400)
+				.send({})
+				.then(({ body }) => {
+					expect(body).toEqual({
+						error: {
+							code: 400,
+							message: "Bad Request"
+						}
+					});
+				});
+		});
 	});
 
 	describe("DELETE", () => {
