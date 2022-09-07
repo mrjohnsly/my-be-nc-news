@@ -22,6 +22,9 @@ exports.updateArticleById = (article_id, numberOfVotes) => {
 		RETURNING *;
 	`, [numberOfVotes, article_id])
 		.then((dbResult) => {
+			if (dbResult.rowCount === 0) {
+				return Promise.reject({ code: 404, message: "No article found" });
+			}
 			return dbResult.rows[0];
 		});
 };
