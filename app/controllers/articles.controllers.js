@@ -24,7 +24,7 @@ exports.patchArticleById = (request, response, next) => {
 	} else if (numberOfVotes) {
 		updateArticleById(article_id, numberOfVotes)
 			.then((article) => {
-				response.status(200).send({ article });
+				response.status(201).send({ article });
 			})
 			.catch((error) => {
 				next(error);
