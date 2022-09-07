@@ -244,7 +244,7 @@ describe("/api/articles/:article_id", () => {
 				});
 		});
 
-		test.only("404: Responds with a message 'No article found' when the request is valid but the article_id isn't found", () => {
+		test("404: Responds with a message 'No article found' when the request is valid but the article_id isn't found", () => {
 			return supertest(app)
 				.patch("/api/articles/9999")
 				.expect(404)
