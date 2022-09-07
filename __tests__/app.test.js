@@ -75,7 +75,7 @@ describe("/api/articles/:article_id", () => {
 				});
 		});
 
-		test("200: Responds with an article object with the properties 'author', 'title', 'article_id', 'body', 'topic', 'created_at', 'votes'", () => {
+		test("200: Responds with an article object with the properties 'author', 'title', 'article_id', 'body', 'topic', 'created_at', 'votes' and 'comment_count", () => {
 			return supertest(app)
 				.get("/api/articles/1")
 				.expect(200)
@@ -87,6 +87,7 @@ describe("/api/articles/:article_id", () => {
 					expect(body.article.topic).toBe("mitch");
 					expect(body.article.created_at).toBe("2020-07-09T20:11:00.000Z");
 					expect(body.article.votes).toBe(100);
+					expect(body.article.comment_count).toBe("11");
 				});
 		});
 
