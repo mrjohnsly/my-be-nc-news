@@ -4,7 +4,7 @@ const seed = require("../db/seeds/seed.js");
 const testData = require("../db/data/test-data/index.js");
 const db = require("../db/connection.js");
 
-beforeAll(() => {
+beforeEach(() => {
 	return seed(testData);
 });
 
@@ -95,7 +95,7 @@ describe("/api/articles/:article_id", () => {
 				.get("/api/articles/one")
 				.expect(400)
 				.then(({ body }) => {
-					expect(body).toEqual({ error: { code: 400, message: 'Invalid ID' } });
+					expect(body).toEqual({ error: { code: 400, message: 'Bad Request' } });
 				});
 		});
 
@@ -121,12 +121,143 @@ describe("/api/articles/:article_id", () => {
 	});
 
 	describe("PATCH", () => {
-		test("405: Responds with a message 'Method not allowed' for PATCH requests", () => {
+		test("201: Responds with the updated article with the vote_count increased by 1", () => {
 			return supertest(app)
 				.patch("/api/articles/1")
-				.expect(405)
+				.expect(201)
+				.send({ inc_votes: 1 })
 				.then(({ body }) => {
-					expect(body).toEqual({ error: { code: 405, message: "Method not allowed" } });
+					expect(body).toEqual({
+						article: {
+							article_id: 1,
+							title: "Living in the shadow of a great man",
+							topic: "mitch",
+							author: "butter_bridge",
+							body: "I find this existence challenging",
+							created_at: "2020-07-09T20:11:00.000Z",
+							votes: 101
+						}
+					});
+				});
+		});
+
+		test("201: Responds with the updated article with the vote_count increased by 99", () => {
+			return supertest(app)
+				.patch("/api/articles/1")
+				.expect(201)
+				.send({ inc_votes: 99 })
+				.then(({ body }) => {
+					expect(body).toEqual({
+						article: {
+							article_id: 1,
+							title: "Living in the shadow of a great man",
+							topic: "mitch",
+							author: "butter_bridge",
+							body: "I find this existence challenging",
+							created_at: "2020-07-09T20:11:00.000Z",
+							votes: 199
+						}
+					});
+				});
+		});
+
+		test("201: Responds with the updated article with the vote_count decreased by -1", () => {
+			return supertest(app)
+				.patch("/api/articles/1")
+				.expect(201)
+				.send({ inc_votes: -1 })
+				.then(({ body }) => {
+					expect(body).toEqual({
+						article: {
+							article_id: 1,
+							title: "Living in the shadow of a great man",
+							topic: "mitch",
+							author: "butter_bridge",
+							body: "I find this existence challenging",
+							created_at: "2020-07-09T20:11:00.000Z",
+							votes: 99
+						}
+					});
+				});
+		});
+
+		test("400: Responds with a message 'Bad Request' when inc_votes is a String", () => {
+			return supertest(app)
+				.patch("/api/articles/1")
+				.expect(400)
+				.send({ inc_votes: "one" })
+				.then(({ body }) => {
+					expect(body).toEqual({
+						error: {
+							code: 400,
+							message: "Bad Request"
+						}
+					});
+				});
+		});
+
+		test("400: Responds with a message 'Invalid ID' when article_id is a String", () => {
+			return supertest(app)
+				.patch("/api/articles/one")
+				.expect(400)
+				.send({ inc_votes: 1 })
+				.then(({ body }) => {
+					expect(body).toEqual({
+						error: {
+							code: 400,
+							message: "Bad Request"
+						}
+					});
+				});
+		});
+
+		test("400: Responds with a message 'Bad Request' when inc_votes is not in the body", () => {
+			return supertest(app)
+				.patch("/api/articles/1")
+				.expect(400)
+				.send({})
+				.then(({ body }) => {
+					expect(body).toEqual({
+						error: {
+							code: 400,
+							message: "Bad Request"
+						}
+					});
+				});
+		});
+
+		test("400: Responds with a message 'Bad Request' when inc_votes and one more property is in the body", () => {
+			return supertest(app)
+				.patch("/api/articles/1")
+				.expect(400)
+				.send({
+					inc_votes: 1,
+					invalid: "Invalid"
+				})
+				.then(({ body }) => {
+					expect(body).toEqual({
+						error: {
+							code: 400,
+							message: "Bad Request"
+						}
+					});
+				});
+		});
+
+		test("404: Responds with a message 'No article found' when the request is valid but the article_id isn't found", () => {
+			return supertest(app)
+				.patch("/api/articles/9999")
+				.expect(404)
+				.send({
+					inc_votes: 1,
+				})
+				.then(({ body }) => {
+					expect(body).toEqual({
+						error: {
+							code: 404,
+							message: "No article found"
+						}
+					});
 				});
 		});
 	});

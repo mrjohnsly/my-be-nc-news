@@ -1,4 +1,4 @@
-const { selectArticleById } = require("../models/articles.models");
+const { selectArticleById, updateArticleById } = require("../models/articles.models");
 
 exports.getArticleById = (request, response, next) => {
 	if (request.method === "GET") {
@@ -13,4 +13,17 @@ exports.getArticleById = (request, response, next) => {
 	} else {
 		response.status(405).send({ error: { code: 405, message: "Method not allowed" } });
 	}
+};
+
+exports.patchArticleById = (request, response, next) => {
+	const article_id = request.params.article_id;
+	const request_body = request.body;
+
+	updateArticleById(article_id, request_body)
+		.then((article) => {
+			response.status(201).send({ article });
+		})
+		.catch((error) => {
+			next(error);
+		});
 };
