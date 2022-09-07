@@ -17,19 +17,13 @@ exports.getArticleById = (request, response, next) => {
 
 exports.patchArticleById = (request, response, next) => {
 	const article_id = request.params.article_id;
-	const numberOfVotes = request.body.inc_votes;
+	const request_body = request.body;
 
-	if (Object.keys(request.body).length > 1) {
-		next({ code: 400, message: "Bad Request" });
-	} else if (numberOfVotes) {
-		updateArticleById(article_id, numberOfVotes)
-			.then((article) => {
-				response.status(201).send({ article });
-			})
-			.catch((error) => {
-				next(error);
-			});
-	} else {
-		next({ code: 400, message: "Bad Request" });
-	}
+	updateArticleById(article_id, request_body)
+		.then((article) => {
+			response.status(201).send({ article });
+		})
+		.catch((error) => {
+			next(error);
+		});
 };
