@@ -243,6 +243,23 @@ describe("/api/articles/:article_id", () => {
 					});
 				});
 		});
+
+		test.only("404: Responds with a message 'No article found' when the request is valid but the article_id isn't found", () => {
+			return supertest(app)
+				.patch("/api/articles/9999")
+				.expect(404)
+				.send({
+					inc_votes: 1,
+				})
+				.then(({ body }) => {
+					expect(body).toEqual({
+						error: {
+							code: 404,
+							message: "No article found"
+						}
+					});
+				});
+		});
 	});
 
 	describe("DELETE", () => {
