@@ -121,10 +121,10 @@ describe("/api/articles/:article_id", () => {
 	});
 
 	describe("PATCH", () => {
-		test("200: Responds with the updated article with the vote_count increased by 1", () => {
+		test("201: Responds with the updated article with the vote_count increased by 1", () => {
 			return supertest(app)
 				.patch("/api/articles/1")
-				.expect(200)
+				.expect(201)
 				.send({ inc_votes: 1 })
 				.then(({ body }) => {
 					expect(body).toEqual({
@@ -141,10 +141,10 @@ describe("/api/articles/:article_id", () => {
 				});
 		});
 
-		test("200: Responds with the updated article with the vote_count increased by 99", () => {
+		test("201: Responds with the updated article with the vote_count increased by 99", () => {
 			return supertest(app)
 				.patch("/api/articles/1")
-				.expect(200)
+				.expect(201)
 				.send({ inc_votes: 99 })
 				.then(({ body }) => {
 					expect(body).toEqual({
@@ -161,10 +161,10 @@ describe("/api/articles/:article_id", () => {
 				});
 		});
 
-		test("200: Responds with the updated article with the vote_count decreased by -1", () => {
+		test("201: Responds with the updated article with the vote_count decreased by -1", () => {
 			return supertest(app)
 				.patch("/api/articles/1")
-				.expect(200)
+				.expect(201)
 				.send({ inc_votes: -1 })
 				.then(({ body }) => {
 					expect(body).toEqual({
