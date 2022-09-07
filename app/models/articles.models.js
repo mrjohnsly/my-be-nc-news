@@ -14,7 +14,15 @@ exports.selectArticleById = (article_id) => {
 		});
 };
 
-exports.updateArticleById = (article_id, numberOfVotes) => {
+exports.updateArticleById = (article_id, request_body) => {
+	const numberOfVotes = request_body.inc_votes;
+
+	if (Object.keys(request_body).length > 1) {
+		return Promise.reject({ code: 400, message: "Bad Request" });
+	} else if (!numberOfVotes) {
+		return Promise.reject({ code: 400, message: "Bad Request" });
+	}
+
 	return db.query(`
 		UPDATE articles
 		SET votes = votes + $1
