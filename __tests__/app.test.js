@@ -115,7 +115,7 @@ describe("/api/articles", () => {
 				});
 		});
 
-		test("200: Response only includes articles with the topic 'empty'", () => {
+		test("200: Response is an empty array when the topic isn't assigned to any article 'empty'", () => {
 			return supertest(app)
 				.get("/api/articles?topic=empty")
 				.expect(200)
