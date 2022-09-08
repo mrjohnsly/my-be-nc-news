@@ -1,5 +1,40 @@
 const db = require("../../db/connection.js");
 
+exports.selectArticles = (topic) => {
+	if (Object.keys(topic).length > 0 && !Object.keys(topic).includes("topic")) {
+		return Promise.reject({ code: 400, message: "Invalid query parameter" });
+	}
+
+	let sqlQuery = `
+		SELECT
+			COUNT(articles.article_id) as comment_count,
+			articles.author,
+			title,
+			articles.article_id,
+			topic,
+			articles.created_at,
+			articles.votes
+		FROM articles
+		LEFT JOIN comments
+		ON articles.article_id = comments.article_id
+	`;
+
+	if (Object.keys(topic).length > 0) {
+		sqlQuery += `
+			WHERE topic = '${topic}'
+		`;
+	}
+
+	sqlQuery += `
+		GROUP BY articles.article_id
+		ORDER BY created_at DESC;
+	`;
+	return db.query(sqlQuery)
+		.then((dbResult) => {
+			return dbResult.rows;
+		});
+};
+
 exports.selectArticleById = (article_id) => {
 	const getArticle = db.query(`
 		SELECT * FROM articles

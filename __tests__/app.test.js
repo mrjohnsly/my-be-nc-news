@@ -64,6 +64,77 @@ describe("/api/topics", () => {
 	});
 });
 
+describe("/api/articles", () => {
+	describe("GET", () => {
+		test("200: Responds with an array of articles'", () => {
+			return supertest(app)
+				.get("/api/articles")
+				.expect(200)
+				.then(({ body }) => {
+					expect(Array.isArray(body.articles)).toBe(true);
+				});
+		});
+
+		test("200: Articles are sorted by created_at in descending order'", () => {
+			return supertest(app)
+				.get("/api/articles")
+				.expect(200)
+				.then(({ body }) => {
+					expect(body.articles).toBeSortedBy("created_at", {
+						descending: true
+					});
+				});
+		});
+
+		test("200: Each article has the correct properties'", () => {
+			return supertest(app)
+				.get("/api/articles")
+				.expect(200)
+				.then(({ body }) => {
+					expect(body.articles.length).toBeGreaterThan(0);
+					body.articles.forEach((article) => {
+						expect(article).toHaveProperty("author");
+						expect(article).toHaveProperty("title");
+						expect(article).toHaveProperty("article_id");
+						expect(article).toHaveProperty("topic");
+						expect(article).toHaveProperty("created_at");
+						expect(article).toHaveProperty("votes");
+						expect(article).toHaveProperty("comment_count");
+					});
+				});
+		});
+
+		test("200: Response only includes articles with the topic 'cats'", () => {
+			return supertest(app)
+				.get("/api/articles?topic=cats")
+				.expect(200)
+				.then(({ body }) => {
+					body.articles.forEach((article) => {
+						expect(article.topic).toBe("cats");
+					});
+				});
+		});
+
+		test("200: Response is an empty array when the topic isn't assigned to any article 'empty'", () => {
+			return supertest(app)
+				.get("/api/articles?topic=empty")
+				.expect(200)
+				.then(({ body }) => {
+					expect(body.articles).toEqual([]);
+				});
+		});
+
+		test("400: Responds with the message 'Invalid query parameter' when the query is not 'topic'", () => {
+			return supertest(app)
+				.get("/api/articles?title=the_article_title")
+				.expect(400)
+				.then(({ body }) => {
+					expect(body.error.message).toBe("Invalid query parameter");
+				});
+		});
+	});
+});
+
 describe("/api/articles/:article_id", () => {
 	describe("GET", () => {
 		test("200: Responds with an article object", () => {

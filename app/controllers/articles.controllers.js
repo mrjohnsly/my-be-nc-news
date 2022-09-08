@@ -1,4 +1,16 @@
-const { selectArticleById, updateArticleById } = require("../models/articles.models");
+const { selectArticleById, updateArticleById, selectArticles } = require("../models/articles.models");
+
+exports.getArticles = (request, response, next) => {
+	const topic = request.query;
+
+	selectArticles(topic)
+		.then((articles) => {
+			response.status(200).send({ articles });
+		})
+		.catch((error) => {
+			next(error);
+		});
+};
 
 exports.getArticleById = (request, response, next) => {
 	if (request.method === "GET") {
