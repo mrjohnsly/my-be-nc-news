@@ -1,6 +1,10 @@
 const db = require("../../db/connection.js");
 
 exports.selectArticles = (topic) => {
+	if (!Object.keys(topic).includes("topic")) {
+		return Promise.reject({ code: 400, message: "Invalid query parameter" });
+	}
+
 	let sqlQuery = `
 		SELECT
 			COUNT(articles.article_id) as comment_count,
