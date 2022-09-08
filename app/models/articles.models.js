@@ -1,7 +1,7 @@
 const db = require("../../db/connection.js");
 
-exports.selectArticles = () => {
-	return db.query(`
+exports.selectArticles = (topic) => {
+	let sqlQuery = `
 		SELECT
 			COUNT(articles.article_id) as comment_count,
 			articles.author,
@@ -13,9 +13,19 @@ exports.selectArticles = () => {
 		FROM articles
 		LEFT JOIN comments
 		ON articles.article_id = comments.article_id
+	`;
+
+	if (topic) {
+		sqlQuery += `
+			WHERE topic = '${topic}'
+		`;
+	}
+
+	sqlQuery += `
 		GROUP BY articles.article_id
 		ORDER BY created_at DESC;
-	`)
+	`;
+	return db.query(sqlQuery)
 		.then((dbResult) => {
 			return dbResult.rows;
 		});
