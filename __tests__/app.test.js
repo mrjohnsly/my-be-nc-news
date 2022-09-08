@@ -123,6 +123,15 @@ describe("/api/articles", () => {
 					expect(body.articles).toEqual([]);
 				});
 		});
+
+		test.only("400: Responds with the message 'Invalid query parameter' when the query is not 'topic'", () => {
+			return supertest(app)
+				.get("/api/articles?title=the_article_title")
+				.expect(400)
+				.then(({ body }) => {
+					expect(body.error.message).toBe("Invalid query parameter");
+				});
+		});
 	});
 });
 
