@@ -124,7 +124,7 @@ describe("/api/articles", () => {
 				});
 		});
 
-		test.only("400: Responds with the message 'Invalid query parameter' when the query is not 'topic'", () => {
+		test("400: Responds with the message 'Invalid query parameter' when the query is not 'topic'", () => {
 			return supertest(app)
 				.get("/api/articles?title=the_article_title")
 				.expect(400)
