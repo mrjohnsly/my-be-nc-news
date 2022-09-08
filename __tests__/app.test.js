@@ -103,6 +103,17 @@ describe("/api/articles", () => {
 					});
 				});
 		});
+
+		test("200: Response only includes articles with the topic 'cats'", () => {
+			return supertest(app)
+				.get("/api/articles?topic=cats")
+				.expect(200)
+				.then(({ body }) => {
+					body.articles.forEach((article) => {
+						expect(article.topic).toBe("cats");
+					});
+				});
+		});
 	});
 });
 
