@@ -1,7 +1,7 @@
 const db = require("../../db/connection.js");
 
 exports.selectArticles = (topic) => {
-	if (!Object.keys(topic).includes("topic")) {
+	if (Object.keys(topic).length > 0 && !Object.keys(topic).includes("topic")) {
 		return Promise.reject({ code: 400, message: "Invalid query parameter" });
 	}
 
@@ -19,7 +19,7 @@ exports.selectArticles = (topic) => {
 		ON articles.article_id = comments.article_id
 	`;
 
-	if (topic) {
+	if (Object.keys(topic).length > 0) {
 		sqlQuery += `
 			WHERE topic = '${topic}'
 		`;
