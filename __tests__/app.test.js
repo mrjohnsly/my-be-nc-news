@@ -114,6 +114,15 @@ describe("/api/articles", () => {
 					});
 				});
 		});
+
+		test("200: Response only includes articles with the topic 'empty'", () => {
+			return supertest(app)
+				.get("/api/articles?topic=empty")
+				.expect(200)
+				.then(({ body }) => {
+					expect(body.articles).toEqual([]);
+				});
+		});
 	});
 });
 
