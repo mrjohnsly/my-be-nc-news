@@ -387,6 +387,15 @@ describe("/api/articles/:article_id/comments", () => {
 					expect(body.comments.length).toBe(0);
 				});
 		});
+
+		test("404: Responds with the message 'No article found'", () => {
+			return supertest(app)
+				.get("/api/articles/9999/comments")
+				.expect(404)
+				.then(({ body }) => {
+					expect(body.error.message).toBe("No article found");
+				});
+		});
 	});
 });
 

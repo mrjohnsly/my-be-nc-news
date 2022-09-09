@@ -82,11 +82,23 @@ exports.updateArticleById = (article_id, request_body) => {
 };
 
 exports.selectCommentsByArticleId = (article_id) => {
-	return db.query(`
+
+	const isArticleIdValid = db.query(`
+		SELECT * FROM articles
+		WHERE article_id = $1
+	`, [article_id]);
+
+	const articleComments = db.query(`
 		SELECT * FROM comments
 		WHERE article_id = $1
-	`, [article_id])
-		.then((dbResult) => {
-			return dbResult.rows;
+	`, [article_id]);
+
+	return Promise.all([isArticleIdValid, articleComments])
+		.then((results) => {
+			if (results[0].rowCount === 0) {
+				return Promise.reject({ code: 404, message: "No article found" });
+			}
+
+			return results[1].rows;
 		});
 };
