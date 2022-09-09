@@ -1,13 +1,14 @@
 const express = require("express");
-const { healthCheck } = require("./controllers/api.controllers");
 const { getArticles, getArticleById, patchArticleById, getArticleComments } = require("./controllers/articles.controllers");
 const { getTopics, postTopics } = require("./controllers/topics.controllers");
 const { getUsers } = require("./controllers/users.controllers");
+const apiRouter = require("./routers/api.routers");
 
 const app = express();
 
 app.use(express.json());
-app.get("/api", healthCheck);
+
+app.use("/api", apiRouter);
 
 app.get("/api/topics", getTopics);
 app.post("/api/topics", postTopics);
