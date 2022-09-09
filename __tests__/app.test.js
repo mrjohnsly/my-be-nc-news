@@ -387,6 +387,15 @@ describe("/api/articles/:article_id/comments", () => {
 					expect(body.comments[0].body).toBe("The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.");
 				});
 		});
+
+		test("200: Responds with an empty array of comments when the article is valid but there are no comments", () => {
+			return supertest(app)
+				.get("/api/articles/2/comments")
+				.expect(200)
+				.then(({ body }) => {
+					expect(body.comments.length).toBe(0);
+				});
+		});
 	});
 });
 
