@@ -396,6 +396,15 @@ describe("/api/articles/:article_id/comments", () => {
 					expect(body.error.message).toBe("No article found");
 				});
 		});
+
+		test("400: Responds with the message 'Bad Request'", () => {
+			return supertest(app)
+				.get("/api/articles/one/comments")
+				.expect(400)
+				.then(({ body }) => {
+					expect(body.error.message).toBe("Bad Request");
+				});
+		});
 	});
 });
 
