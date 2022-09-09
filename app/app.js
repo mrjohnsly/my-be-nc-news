@@ -22,6 +22,10 @@ app.use((error, request, response, next) => {
 app.use((error, request, response, next) => {
 	if (error.code === "22P02") {
 		response.status(400).send({ error: { code: 400, message: "Bad Request" } });
+	} else if (error.code === "23503") {
+		response.status(404).send({ error: { code: 404, message: "No article found" } });
+	} else {
+		next(error);
 	}
 });
 

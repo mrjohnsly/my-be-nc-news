@@ -421,6 +421,26 @@ describe("/api/articles/:article_id/comments", () => {
 					expect(body.comment).toHaveProperty("votes");
 				});
 		});
+
+		test("400: Responds with 'Bad Request'", () => {
+			return supertest(app)
+				.post("/api/articles/one/comments")
+				.expect(400)
+				.send({ username: "lurker", body: "The comment" })
+				.then(({ body }) => {
+					expect(body.error).toEqual({ code: 400, message: "Bad Request" });
+				});
+		});
+
+		test("404: Responds with 'No article found'", () => {
+			return supertest(app)
+				.post("/api/articles/9999/comments")
+				.expect(404)
+				.send({ username: "lurker", body: "The comment" })
+				.then(({ body }) => {
+					expect(body.error).toEqual({ code: 404, message: "No article found" });
+				});
+		});
 	});
 });
 

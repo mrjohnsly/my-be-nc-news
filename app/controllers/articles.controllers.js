@@ -59,5 +59,8 @@ exports.postCommentByArticleId = (request, response, next) => {
 	insertCommentByArticleId(article_id, body)
 		.then((comment) => {
 			response.status(200).send({ comment });
+		})
+		.catch((error) => {
+			next(error);
 		});
 };
