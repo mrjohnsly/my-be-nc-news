@@ -349,15 +349,6 @@ describe("/api/articles/:article_id", () => {
 
 describe("/api/articles/:article_id/comments", () => {
 	describe("GET", () => {
-		test("200: Responds with an array of comments", () => {
-			return supertest(app)
-				.get("/api/articles/1/comments")
-				.expect(200)
-				.then(({ body }) => {
-					expect(Array.isArray(body.comments)).toBe(true);
-				});
-		});
-
 		test("200: Responds with an array of comments with the correct properties", () => {
 			return supertest(app)
 				.get("/api/articles/1/comments")
