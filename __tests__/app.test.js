@@ -109,6 +109,7 @@ describe("/api/articles", () => {
 				.get("/api/articles?topic=cats")
 				.expect(200)
 				.then(({ body }) => {
+					expect(body.articles.length).toBeGreaterThan(0);
 					body.articles.forEach((article) => {
 						expect(article.topic).toBe("cats");
 					});
