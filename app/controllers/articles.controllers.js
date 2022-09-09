@@ -1,4 +1,4 @@
-const { selectArticleById, updateArticleById, selectArticles } = require("../models/articles.models");
+const { selectArticleById, updateArticleById, selectArticles, selectCommentsByArticleId } = require("../models/articles.models");
 
 exports.getArticles = (request, response, next) => {
 	const topic = request.query;
@@ -37,5 +37,14 @@ exports.patchArticleById = (request, response, next) => {
 		})
 		.catch((error) => {
 			next(error);
+		});
+};
+
+exports.getArticleComments = (request, response, next) => {
+	const article_id = request.params.article_id;
+
+	selectCommentsByArticleId(article_id)
+		.then((comments) => {
+			response.status(200).send({ comments });
 		});
 };

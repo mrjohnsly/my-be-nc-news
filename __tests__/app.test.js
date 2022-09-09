@@ -347,6 +347,49 @@ describe("/api/articles/:article_id", () => {
 	});
 });
 
+describe("/api/articles/:article_id/comments", () => {
+	describe("GET", () => {
+		test("200: Responds with an array of comments", () => {
+			return supertest(app)
+				.get("/api/articles/1/comments")
+				.expect(200)
+				.then(({ body }) => {
+					expect(Array.isArray(body.comments)).toBe(true);
+				});
+		});
+
+		test("200: Responds with an array of comments with the correct properties", () => {
+			return supertest(app)
+				.get("/api/articles/1/comments")
+				.expect(200)
+				.then(({ body }) => {
+					expect(body.comments.length).toBeGreaterThan(0);
+					body.comments.forEach((comment) => {
+						expect(comment).toHaveProperty("comment_id");
+						expect(comment).toHaveProperty("votes");
+						expect(comment).toHaveProperty("created_at");
+						expect(comment).toHaveProperty("author");
+						expect(comment).toHaveProperty("body");
+					});
+				});
+		});
+
+		test("200: Responds with an array of comments with the first comment having the correct values", () => {
+			return supertest(app)
+				.get("/api/articles/1/comments")
+				.expect(200)
+				.then(({ body }) => {
+					expect(body.comments.length).toBeGreaterThan(0);
+					expect(body.comments[0].comment_id).toBe(2);
+					expect(body.comments[0].votes).toBe(14);
+					expect(body.comments[0].created_at).toBe("2020-10-31T03:03:00.000Z");
+					expect(body.comments[0].author).toBe("butter_bridge");
+					expect(body.comments[0].body).toBe("The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.");
+				});
+		});
+	});
+});
+
 describe("/api/users", () => {
 	describe("GET", () => {
 		test("200: Responds with an array on the users property", () => {
