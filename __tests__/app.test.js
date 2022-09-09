@@ -438,7 +438,7 @@ describe("/api/topics", () => {
 				.then(({ body }) => {
 					expect(body).toHaveProperty("error");
 					expect(body.error).toHaveProperty("message");
-					expect(body.error.message).toEqual("501 Not Implemented");
+					expect(body.error.message).toEqual("Not Implemented");
 				});
 		});
 	});

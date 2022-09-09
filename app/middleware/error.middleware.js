@@ -4,7 +4,7 @@ exports.statusCodeError = (error, request, response, next) => {
 	} else if (error.code === 404) {
 		response.status(404).send({ error });
 	} else if (error.code === 501) {
-		response.status(501).send({ error: { message: "501 Not Implemented" } });
+		response.status(501).send({ error });
 	} else {
 		next(error);
 	}
