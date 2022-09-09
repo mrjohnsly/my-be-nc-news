@@ -1,5 +1,5 @@
 const express = require("express");
-const { getArticles, getArticleById, patchArticleById, getArticleComments } = require("../controllers/articles.controllers");
+const { getArticles, getArticleById, patchArticleById, getArticleComments, postCommentByArticleId } = require("../controllers/articles.controllers");
 const articlesRouter = express.Router();
 
 articlesRouter.route("/")
@@ -12,6 +12,7 @@ articlesRouter.route("/:article_id")
 	.delete(getArticleById);
 
 articlesRouter.route("/:article_id/comments")
-	.get(getArticleComments);
+	.get(getArticleComments)
+	.post(postCommentByArticleId);
 
 module.exports = articlesRouter;

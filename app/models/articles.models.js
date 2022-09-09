@@ -102,3 +102,16 @@ exports.selectCommentsByArticleId = (article_id) => {
 			return results[1].rows;
 		});
 };
+
+exports.insertCommentByArticleId = (article_id, body) => {
+	return db.query(`
+		INSERT INTO comments
+		(body, author, article_id)
+		VALUES
+		($1, $2, $3)
+		RETURNING *
+	`, [body.body, body.username, article_id])
+		.then((dbResult) => {
+			return dbResult.rows[0];
+		});
+};

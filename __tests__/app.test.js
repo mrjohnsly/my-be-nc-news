@@ -406,6 +406,22 @@ describe("/api/articles/:article_id/comments", () => {
 				});
 		});
 	});
+
+	describe("POST", () => {
+		test("200: Responds with the posted comment", () => {
+			return supertest(app)
+				.post("/api/articles/1/comments")
+				.expect(200)
+				.send({ username: "lurker", body: "The comment" })
+				.then(({ body }) => {
+					expect(body.comment).toHaveProperty("article_id");
+					expect(body.comment).toHaveProperty("author");
+					expect(body.comment).toHaveProperty("comment_id");
+					expect(body.comment).toHaveProperty("created_at");
+					expect(body.comment).toHaveProperty("votes");
+				});
+		});
+	});
 });
 
 describe("/api/users", () => {
