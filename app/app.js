@@ -1,23 +1,11 @@
 const express = require("express");
-const { healthCheck } = require("./controllers/api.controllers");
-const { getArticles, getArticleById, patchArticleById, getArticleComments } = require("./controllers/articles.controllers");
-const { getTopics, postTopics } = require("./controllers/topics.controllers");
-const { getUsers } = require("./controllers/users.controllers");
+const apiRouter = require("./routers/api.routers");
 
 const app = express();
 
 app.use(express.json());
-app.get("/api", healthCheck);
 
-app.get("/api/topics", getTopics);
-app.post("/api/topics", postTopics);
-app.get("/api/articles", getArticles);
-app.get("/api/articles/:article_id", getArticleById);
-app.post("/api/articles/:article_id", getArticleById);
-app.patch("/api/articles/:article_id", patchArticleById);
-app.delete("/api/articles/:article_id", getArticleById);
-app.get("/api/articles/:article_id/comments", getArticleComments);
-app.get("/api/users", getUsers);
+app.use("/api", apiRouter);
 
 app.use((error, request, response, next) => {
 	if (error.code === 400) {
