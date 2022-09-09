@@ -25,45 +25,6 @@ describe("/api", () => {
 	});
 });
 
-describe("/api/topics", () => {
-	describe("GET", () => {
-		test("200: Responds with an array on the topics key", () => {
-			return supertest(app)
-				.get("/api/topics")
-				.expect(200)
-				.then(({ body }) => {
-					expect(Array.isArray(body.topics)).toBe(true);
-				});
-		});
-
-		test("200: Responds with an array of topics with the properties 'slug' and 'description'", () => {
-			return supertest(app)
-				.get("/api/topics")
-				.expect(200)
-				.then(({ body }) => {
-					expect(body.topics.length).toBeGreaterThan(0);
-					body.topics.forEach((topic) => {
-						expect(topic).toHaveProperty("slug");
-						expect(topic).toHaveProperty("description");
-					});
-				});
-		});
-	});
-
-	describe("POST", () => {
-		test("501: Responds with an error object with a message 501 Not Implemented", () => {
-			return supertest(app)
-				.post("/api/topics")
-				.expect(501)
-				.then(({ body }) => {
-					expect(body).toHaveProperty("error");
-					expect(body.error).toHaveProperty("message");
-					expect(body.error.message).toEqual("501 Not Implemented");
-				});
-		});
-	});
-});
-
 describe("/api/articles", () => {
 	describe("GET", () => {
 		test("200: Responds with an array of articles'", () => {
@@ -439,6 +400,45 @@ describe("/api/articles/:article_id/comments", () => {
 				.send({ username: "lurker", body: "The comment" })
 				.then(({ body }) => {
 					expect(body.error).toEqual({ code: 404, message: "No article found" });
+				});
+		});
+	});
+});
+
+describe("/api/topics", () => {
+	describe("GET", () => {
+		test("200: Responds with an array on the topics key", () => {
+			return supertest(app)
+				.get("/api/topics")
+				.expect(200)
+				.then(({ body }) => {
+					expect(Array.isArray(body.topics)).toBe(true);
+				});
+		});
+
+		test("200: Responds with an array of topics with the properties 'slug' and 'description'", () => {
+			return supertest(app)
+				.get("/api/topics")
+				.expect(200)
+				.then(({ body }) => {
+					expect(body.topics.length).toBeGreaterThan(0);
+					body.topics.forEach((topic) => {
+						expect(topic).toHaveProperty("slug");
+						expect(topic).toHaveProperty("description");
+					});
+				});
+		});
+	});
+
+	describe("POST", () => {
+		test("501: Responds with an error object with a message 501 Not Implemented", () => {
+			return supertest(app)
+				.post("/api/topics")
+				.expect(501)
+				.then(({ body }) => {
+					expect(body).toHaveProperty("error");
+					expect(body.error).toHaveProperty("message");
+					expect(body.error.message).toEqual("501 Not Implemented");
 				});
 		});
 	});
