@@ -21,7 +21,7 @@ exports.selectArticles = (topic) => {
 
 	if (Object.keys(topic).length > 0) {
 		sqlQuery += `
-			WHERE topic = '${topic}'
+			WHERE topic = '${topic.topic}'
 		`;
 	}
 
