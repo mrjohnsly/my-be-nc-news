@@ -46,5 +46,8 @@ exports.getArticleComments = (request, response, next) => {
 	selectCommentsByArticleId(article_id)
 		.then((comments) => {
 			response.status(200).send({ comments });
+		})
+		.catch((error) => {
+			next(error);
 		});
 };
