@@ -1,6 +1,5 @@
 const express = require("express");
 const { getArticles, getArticleById, patchArticleById, getArticleComments } = require("./controllers/articles.controllers");
-const { getTopics, postTopics } = require("./controllers/topics.controllers");
 const apiRouter = require("./routers/api.routers");
 
 const app = express();
@@ -9,8 +8,6 @@ app.use(express.json());
 
 app.use("/api", apiRouter);
 
-app.get("/api/topics", getTopics);
-app.post("/api/topics", postTopics);
 app.get("/api/articles", getArticles);
 app.get("/api/articles/:article_id", getArticleById);
 app.post("/api/articles/:article_id", getArticleById);
